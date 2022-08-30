@@ -2,7 +2,7 @@ package pl.projewski.pdfstreamer.stream;
 
 import java.io.ByteArrayOutputStream;
 
-public class ParameterReader extends ParentReader {
+class ParameterReader extends ParentReader {
     char BEGIN_CHAR = '/';
     boolean begin = false;
 
@@ -10,7 +10,7 @@ public class ParameterReader extends ParentReader {
     ByteArrayOutputStream parameterValue = new ByteArrayOutputStream();
     boolean parameterNamePart = true;
 
-    public ParameterReader(ParentReader parent) {
+    ParameterReader(ParentReader parent) {
         super(parent);
     }
 

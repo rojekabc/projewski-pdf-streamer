@@ -1,5 +1,7 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfStructure;
+
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +11,11 @@ public class PdfStructureParserInputStream extends FilterInputStream {
 
     public PdfStructureParserInputStream(InputStream in) {
         super(in);
+        parserContext.pdfStructure.startNextRevision();
+    }
+
+    public PdfStructure getPdfStructure() {
+        return parserContext.pdfStructure;
     }
 
     @Override

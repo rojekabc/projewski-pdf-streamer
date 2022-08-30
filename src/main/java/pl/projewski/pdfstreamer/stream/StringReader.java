@@ -2,12 +2,12 @@ package pl.projewski.pdfstreamer.stream;
 
 import java.io.ByteArrayOutputStream;
 
-public class StringReader extends ChildReader {
+class StringReader extends ChildReader {
     boolean begin = false;
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     boolean escaped = false;
 
-    public StringReader(ParentReader parent) {
+    StringReader(ParentReader parent) {
         super(parent);
     }
 

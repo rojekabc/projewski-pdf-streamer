@@ -1,6 +1,6 @@
 package pl.projewski.pdfstreamer.stream;
 
-public abstract class ParentReader extends ChildReader {
+abstract class ParentReader extends ChildReader {
     int stage = 0;
 
     ParentReader(ParentReader parentReader) {

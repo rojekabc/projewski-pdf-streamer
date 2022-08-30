@@ -2,10 +2,10 @@ package pl.projewski.pdfstreamer.stream;
 
 import java.io.ByteArrayOutputStream;
 
-public class StartXRefReader extends ChildReader {
+class StartXRefReader extends ChildReader {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-    public StartXRefReader(ParentReader parent) {
+    StartXRefReader(ParentReader parent) {
         super(parent);
     }
 

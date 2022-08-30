@@ -4,7 +4,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
 import pl.projewski.pdfstreamer.cache.CachingComponent;
-import pl.projewski.pdfstreamer.cache.FileCachingComponent;
+import pl.projewski.pdfstreamer.cache.NoneCachingComponent;
+import pl.projewski.pdfstreamer.structure.PdfStructure;
 import pl.projewski.test.utils.ResourceUtil;
 
 import java.io.File;
@@ -13,7 +14,8 @@ import java.io.InputStream;
 
 public class PdfStreamerTest {
     static File cacheFolder = new File("cache");
-    CachingComponent cachingComponent = new FileCachingComponent(cacheFolder);
+    // CachingComponent cachingComponent = new FileCachingComponent(cacheFolder);
+    CachingComponent cachingComponent = new NoneCachingComponent();
     PdfStreamer pdfStreamer = new PdfStreamer(cachingComponent);
 
     @Test
@@ -34,7 +36,9 @@ public class PdfStreamerTest {
         final InputStream resourceStream = ResourceUtil.getResourceStream("001.pades");
 
         // when
-        pdfStreamer.parse(resourceStream);
+        final PdfStructure pdfStructure = pdfStreamer.parse(resourceStream);
+        System.out.println("----------");
+        System.out.println(pdfStructure);
 
         // then
 

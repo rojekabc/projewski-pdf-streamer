@@ -2,7 +2,7 @@ package pl.projewski.pdfstreamer.stream;
 
 import java.io.ByteArrayOutputStream;
 
-public class ObjectReader extends ParentReader {
+class ObjectReader extends ParentReader {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     ObjectReader(ParentReader parentReader) {
@@ -25,10 +25,13 @@ public class ObjectReader extends ParentReader {
             if ("xref".equals(name)) {
                 System.out.println("START XREF");
                 redirect(new XRefReader(this), context, r);
-            } else if (name.endsWith("obj")) {
-                System.out.println("Object id: " + name);
             } else if ("endobj".equals(name)) {
                 System.out.println("END OBJECT");
+            } else if (name.endsWith(" obj")) {
+                if (ParserContext.OUT) {
+                    System.out.println("Object id: " + name);
+                }
+                context.pdfStructure.nextObject(name);
             } else if ("stream".equals(name)) {
                 redirect(new StreamReader(this), context, r);
             } else if ("startxref".equals(name)) {

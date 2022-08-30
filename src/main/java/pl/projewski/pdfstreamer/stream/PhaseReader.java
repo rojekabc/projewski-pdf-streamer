@@ -1,6 +1,6 @@
 package pl.projewski.pdfstreamer.stream;
 
-public interface PhaseReader {
+interface PhaseReader {
     void put(ParserContext context, int r);
 
     default void redirect(PhaseReader phaseReader, ParserContext context, int r) {

@@ -1,8 +1,5 @@
 package pl.projewski.pdfstreamer.stream;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class DirectoryReader extends ParentReader {
     String START_STRING = "<<";
     String END_STRING = ">>";
@@ -10,9 +7,7 @@ public class DirectoryReader extends ParentReader {
     int startPos = 0;
     int endPos = 0;
 
-    Map<String, String> parameters = new HashMap<>();
-
-    public DirectoryReader(ParentReader parent) {
+    DirectoryReader(ParentReader parent) {
         super(parent);
     }
 

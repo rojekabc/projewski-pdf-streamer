@@ -2,7 +2,7 @@ package pl.projewski.pdfstreamer.stream;
 
 import java.io.ByteArrayOutputStream;
 
-public class ContentReader extends ParentReader {
+class ContentReader extends ParentReader {
     String START_STRING = "<";
 
     int startPos = 0;
@@ -10,7 +10,7 @@ public class ContentReader extends ParentReader {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 
-    public ContentReader(ParentReader parent) {
+    ContentReader(ParentReader parent) {
         super(parent);
     }
 

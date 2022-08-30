@@ -1,6 +1,6 @@
 package pl.projewski.pdfstreamer.stream;
 
-public class PdfReader extends ParentReader {
+class PdfReader extends ParentReader {
     public static byte DEFINITION_CHARACTER = '%';
 
     PdfReader(ParserContext context) {
@@ -11,7 +11,7 @@ public class PdfReader extends ParentReader {
     @Override
     public void put(ParserContext context, int r) {
         if (r == DEFINITION_CHARACTER) {
-            redirect(new PhaseDefinitionReader(this), context, r);
+            redirect(new DefinitionReader(this), context, r);
         } else {
             redirect(new ObjectReader(this), context, r);
         }

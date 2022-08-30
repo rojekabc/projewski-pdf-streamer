@@ -2,11 +2,11 @@ package pl.projewski.pdfstreamer.stream;
 
 import java.io.ByteArrayOutputStream;
 
-public class XRefReader extends ChildReader {
+class XRefReader extends ChildReader {
     int type = -1;
     ByteArrayOutputStream line = new ByteArrayOutputStream();
 
-    public XRefReader(ParentReader parent) {
+    XRefReader(ParentReader parent) {
         super(parent);
     }
 

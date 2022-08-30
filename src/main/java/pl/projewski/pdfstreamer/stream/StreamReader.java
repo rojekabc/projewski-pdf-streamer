@@ -1,11 +1,11 @@
 package pl.projewski.pdfstreamer.stream;
 
-public class StreamReader extends ChildReader {
+class StreamReader extends ChildReader {
     static String END_STRING = "\nendstream\n";
     int endpos = 0;
     int counter = 0;
 
-    public StreamReader(ParentReader parent) {
+    StreamReader(ParentReader parent) {
         super(parent);
     }
 
