@@ -23,7 +23,9 @@ class XRefReader extends ChildReader {
         if (r == '\n') {
             String linestr = line.toString();
             if ("trailer".equals(linestr)) {
-                System.out.println("trailer");
+                if (ParserContext.OUT) {
+                    System.out.println("trailer");
+                }
                 parent.complete(context);
             } else {
                 final String[] strings = linestr.split(" ");

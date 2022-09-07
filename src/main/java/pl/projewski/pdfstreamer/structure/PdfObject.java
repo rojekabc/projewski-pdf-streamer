@@ -6,7 +6,7 @@ import lombok.ToString;
 import java.util.Objects;
 
 @RequiredArgsConstructor
-@ToString
+@ToString(callSuper = true)
 public class PdfObject extends PdfDirectory {
     private final static String OBJECT_ID_SEPARATOR = " ";
     private final int id;

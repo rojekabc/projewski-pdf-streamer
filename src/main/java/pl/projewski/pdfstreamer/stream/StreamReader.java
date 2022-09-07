@@ -21,7 +21,9 @@ class StreamReader extends ChildReader {
         if (END_STRING.charAt(endpos) == r) {
             endpos++;
             if (END_STRING.length() == endpos) {
-                System.out.println("Stream Length : " + counter);
+                if (ParserContext.OUT) {
+                    System.out.println("Stream Length : " + counter);
+                }
                 parent.complete(context);
             }
         } else {

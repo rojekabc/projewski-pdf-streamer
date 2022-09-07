@@ -3,5 +3,5 @@ package pl.projewski.pdfstreamer.structure;
 import lombok.ToString;
 
 @ToString
-public class PdfStartXRef extends PdfElement {
+public class PdfEndRevision extends PdfElement {
 }

@@ -24,7 +24,8 @@ public class PdfStreamerTest {
         final InputStream resourceStream = ResourceUtil.getResourceStream("001.pdf");
 
         // when
-        pdfStreamer.parse(resourceStream);
+        final PdfStructure pdfStructure = pdfStreamer.parse(resourceStream);
+        System.out.println(pdfStructure);
 
         // then
 
@@ -37,7 +38,6 @@ public class PdfStreamerTest {
 
         // when
         final PdfStructure pdfStructure = pdfStreamer.parse(resourceStream);
-        System.out.println("----------");
         System.out.println(pdfStructure);
 
         // then

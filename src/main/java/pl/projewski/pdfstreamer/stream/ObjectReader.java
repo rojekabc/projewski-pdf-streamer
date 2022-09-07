@@ -9,8 +9,9 @@ class ObjectReader extends ParentReader {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     PdfObject pdfObject;
 
-    ObjectReader(ParentReader parentReader) {
+    ObjectReader(ParentReader parentReader, String objectName) {
         super(parentReader);
+        pdfObject = new PdfObject(objectName);
     }
 
     @Override
@@ -28,25 +29,13 @@ class ObjectReader extends ParentReader {
         } else if (r == '\n' || r == '\r') {
             final String name = baos.toString();
             baos.reset();
-            if ("xref".equals(name)) {
-                System.out.println("START XREF");
-                redirect(new XRefReader(this), context, r);
-            } else if ("endobj".equals(name)) {
+            if ("endobj".equals(name)) {
                 if (ParserContext.OUT) {
                     System.out.println("END OBJECT");
                 }
                 parent.complete(context);
-            } else if (name.endsWith(" obj")) {
-                if (ParserContext.OUT) {
-                    System.out.println("Object id: " + name);
-                }
-                pdfObject = new PdfObject(name);
             } else if ("stream".equals(name)) {
                 redirect(new StreamReader(this), context, r);
-            } else if ("startxref".equals(name)) {
-                redirect(new StartXRefReader(this), context, r);
-            } else if ("%%EOF".equals(name)) {
-                System.out.println("END REVISION");
             }
         } else {
             baos.write(r);

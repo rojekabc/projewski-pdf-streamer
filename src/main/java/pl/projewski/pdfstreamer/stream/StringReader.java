@@ -23,7 +23,9 @@ class StringReader extends ChildReader {
             } else if (r == '\\') {
                 escaped = true;
             } else if (r == ')') {
-                System.out.println("String " + baos.toString());
+                if (ParserContext.OUT) {
+                    System.out.println("String " + baos.toString());
+                }
                 parent.complete(context);
             } else {
                 baos.write(r);

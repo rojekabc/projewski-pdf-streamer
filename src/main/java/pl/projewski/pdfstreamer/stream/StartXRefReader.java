@@ -18,7 +18,9 @@ class StartXRefReader extends ChildReader {
             return;
         }
         if (r == '\r' || r == '\n') {
-            System.out.println("StartXRef " + baos.toString());
+            if (ParserContext.OUT) {
+                System.out.println("StartXRef " + baos.toString());
+            }
             parent.complete(context);
         } else {
             baos.write(r);
