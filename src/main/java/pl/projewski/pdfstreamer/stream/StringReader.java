@@ -1,5 +1,8 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfElement;
+import pl.projewski.pdfstreamer.structure.PdfString;
+
 import java.io.ByteArrayOutputStream;
 
 class StringReader extends ChildReader {
@@ -31,5 +34,10 @@ class StringReader extends ChildReader {
             throw new IllegalStateException("Wrong string begin");
         }
 
+    }
+
+    @Override
+    public PdfElement getResult() {
+        return new PdfString(baos.toString());
     }
 }

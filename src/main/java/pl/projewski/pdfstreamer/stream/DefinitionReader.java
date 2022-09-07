@@ -1,5 +1,8 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfDefinition;
+import pl.projewski.pdfstreamer.structure.PdfElement;
+
 import java.io.ByteArrayOutputStream;
 
 class DefinitionReader extends ChildReader {
@@ -23,11 +26,16 @@ class DefinitionReader extends ChildReader {
             if (ParserContext.OUT) {
                 System.out.println("Configuration: [" + baos.toString() + "]");
             }
-            context.pdfStructure.addDefinition(baos.toString());
+
             parent.complete(context);
         } else {
             baos.write(r);
         }
+    }
+
+    @Override
+    public PdfElement getResult() {
+        return new PdfDefinition(baos.toString());
     }
 
 }

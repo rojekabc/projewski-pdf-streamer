@@ -1,5 +1,8 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfContent;
+import pl.projewski.pdfstreamer.structure.PdfElement;
+
 import java.io.ByteArrayOutputStream;
 
 class ContentReader extends ParentReader {
@@ -19,7 +22,9 @@ class ContentReader extends ParentReader {
     public void put(ParserContext context, int r) {
         if (startPos == START_STRING.length()) {
             if (r == '>') {
-                System.out.println("Content: " + baos.toString());
+                if (ParserContext.OUT) {
+                    System.out.println("Content: " + baos.toString());
+                }
                 parent.complete(context);
             } else {
                 baos.write(r);
@@ -29,6 +34,11 @@ class ContentReader extends ParentReader {
         } else {
             throw new IllegalStateException("Wrong structure");
         }
+    }
+
+    @Override
+    public PdfElement getResult() {
+        return new PdfContent(baos.toString());
     }
 
     @Override

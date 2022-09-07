@@ -8,14 +8,15 @@ import java.io.InputStream;
 
 public class PdfStructureParserInputStream extends FilterInputStream {
     ParserContext parserContext = new ParserContext();
+    PdfReader pdfReader = new PdfReader(parserContext);
 
     public PdfStructureParserInputStream(InputStream in) {
         super(in);
-        parserContext.pdfStructure.startNextRevision();
+        parserContext.phaseReader = pdfReader;
     }
 
     public PdfStructure getPdfStructure() {
-        return parserContext.pdfStructure;
+        return pdfReader.pdfStructure;
     }
 
     @Override

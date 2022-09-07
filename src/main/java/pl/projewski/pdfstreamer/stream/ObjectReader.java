@@ -1,9 +1,13 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfElement;
+import pl.projewski.pdfstreamer.structure.PdfObject;
+
 import java.io.ByteArrayOutputStream;
 
 class ObjectReader extends ParentReader {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfObject pdfObject;
 
     ObjectReader(ParentReader parentReader) {
         super(parentReader);
@@ -13,7 +17,9 @@ class ObjectReader extends ParentReader {
     public void put(ParserContext context, int r) {
         if (baos.size() == 0) {
             if (r == '<') {
-                System.out.println("START DIRECTORY");
+                if (ParserContext.OUT) {
+                    System.out.println("START DIRECTORY");
+                }
                 baos.reset();
                 redirect(new DirectoryReader(this), context, r);
             } else if (r != '\n' && r != '\r') {
@@ -26,12 +32,15 @@ class ObjectReader extends ParentReader {
                 System.out.println("START XREF");
                 redirect(new XRefReader(this), context, r);
             } else if ("endobj".equals(name)) {
-                System.out.println("END OBJECT");
+                if (ParserContext.OUT) {
+                    System.out.println("END OBJECT");
+                }
+                parent.complete(context);
             } else if (name.endsWith(" obj")) {
                 if (ParserContext.OUT) {
                     System.out.println("Object id: " + name);
                 }
-                context.pdfStructure.nextObject(name);
+                pdfObject = new PdfObject(name);
             } else if ("stream".equals(name)) {
                 redirect(new StreamReader(this), context, r);
             } else if ("startxref".equals(name)) {
@@ -45,7 +54,13 @@ class ObjectReader extends ParentReader {
     }
 
     @Override
+    public PdfElement getResult() {
+        return pdfObject;
+    }
+
+    @Override
     public void nextStage(ParserContext context, PhaseReader endingObject) {
+        pdfObject.addElement(endingObject.getResult());
         baos.reset();
     }
 }

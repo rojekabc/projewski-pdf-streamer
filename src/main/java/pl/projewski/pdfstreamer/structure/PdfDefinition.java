@@ -5,6 +5,6 @@ import lombok.ToString;
 
 @ToString
 @RequiredArgsConstructor
-public class PdfDefinition {
+public class PdfDefinition extends PdfElement {
     final String data;
 }

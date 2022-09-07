@@ -1,7 +1,11 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfElement;
+import pl.projewski.pdfstreamer.structure.PdfStructure;
+
 class PdfReader extends ParentReader {
     public static byte DEFINITION_CHARACTER = '%';
+    PdfStructure pdfStructure = new PdfStructure();
 
     PdfReader(ParserContext context) {
         super(null);
@@ -18,7 +22,13 @@ class PdfReader extends ParentReader {
     }
 
     @Override
+    public PdfElement getResult() {
+        return pdfStructure;
+    }
+
+    @Override
     public void nextStage(ParserContext context, PhaseReader endingObject) {
+        pdfStructure.addElement(endingObject.getResult());
     }
 
 }

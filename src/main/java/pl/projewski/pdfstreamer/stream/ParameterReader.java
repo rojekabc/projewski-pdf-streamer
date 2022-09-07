@@ -1,10 +1,15 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfElement;
+import pl.projewski.pdfstreamer.structure.PdfParameter;
+import pl.projewski.pdfstreamer.structure.PdfString;
+
 import java.io.ByteArrayOutputStream;
 
 class ParameterReader extends ParentReader {
     char BEGIN_CHAR = '/';
     boolean begin = false;
+    PdfElement value;
 
     ByteArrayOutputStream parameterName = new ByteArrayOutputStream();
     ByteArrayOutputStream parameterValue = new ByteArrayOutputStream();
@@ -20,23 +25,18 @@ class ParameterReader extends ParentReader {
             if (parameterNamePart) {
                 if (r == ' ') {
                     parameterNamePart = false;
-                    System.out.println("Parameter name: " + parameterName.toString());
                     return; // ignore
                 }
                 if (r == '/') {
                     parameterNamePart = false;
-                    System.out.println("Parameter name: " + parameterName.toString());
                 } else if (r == '(') {
                     parameterNamePart = false;
-                    System.out.println("Parameter name: " + parameterName.toString());
                     redirect(new StringReader(this), context, r);
                 } else if (r == '[') {
                     parameterNamePart = false;
-                    System.out.println("Parameter name: " + parameterName.toString());
                     redirect(new ArrayReader(this), context, r);
                 } else if (r == '<') {
                     parameterNamePart = false;
-                    System.out.println("Parameter name: " + parameterName.toString());
                     redirect(new DirectoryReader(this), context, r);
                 } else {
                     parameterName.write(r);
@@ -53,13 +53,20 @@ class ParameterReader extends ParentReader {
                     redirect(new StringReader(this), context, r);
                 } else if (r == '/' || r == '>') {
                     // System.out.println("Parameter name: " + parameterName.toString());
-                    System.out.println("Parameter value: " + parameterValue.toString());
+                    if (ParserContext.OUT) {
+                        System.out.println("Parameter name: " + parameterName.toString());
+                        System.out.println("Parameter value: " + parameterValue.toString());
+                    }
+                    value = new PdfString(parameterValue.toString());
 
                     parent.complete(context);
                     context.phaseReader.put(context, r);
                 } else if (r == ')' || r == ']') {
-                    // System.out.println("Parameter name: " + parameterName.toString());
-                    System.out.println("Parameter value: " + parameterValue.toString());
+                    if (ParserContext.OUT) {
+                        System.out.println("Parameter name: " + parameterName.toString());
+                        System.out.println("Parameter value: " + parameterValue.toString());
+                    }
+                    value = new PdfString(parameterValue.toString());
 
                     parent.complete(context);
                 } else {
@@ -77,7 +84,14 @@ class ParameterReader extends ParentReader {
     }
 
     @Override
+    public PdfElement getResult() {
+        return new PdfParameter(parameterName.toString(), value);
+    }
+
+    @Override
     public void nextStage(ParserContext context, PhaseReader endingObject) {
+        value = endingObject.getResult();
+
         parent.complete(context); // Finish the value - for example directory
     }
 

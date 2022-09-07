@@ -1,8 +1,12 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfDirectory;
+import pl.projewski.pdfstreamer.structure.PdfElement;
+
 public class DirectoryReader extends ParentReader {
-    String START_STRING = "<<";
-    String END_STRING = ">>";
+    final PdfDirectory pdfDirectory = new PdfDirectory();
+    final static String START_STRING = "<<";
+    final static String END_STRING = ">>";
 
     int startPos = 0;
     int endPos = 0;
@@ -21,7 +25,9 @@ public class DirectoryReader extends ParentReader {
                 endPos++;
                 if (endPos == END_STRING.length()) {
                     parent.complete(context);
-                    System.out.println("END DIRECTORY");
+                    if (ParserContext.OUT) {
+                        System.out.println("END DIRECTORY");
+                    }
                 }
             }
         } else if (START_STRING.charAt(startPos) == r) {
@@ -37,8 +43,13 @@ public class DirectoryReader extends ParentReader {
     }
 
     @Override
-    public void nextStage(ParserContext context, PhaseReader endingObject) {
+    public PdfElement getResult() {
+        return pdfDirectory;
+    }
 
+    @Override
+    public void nextStage(ParserContext context, PhaseReader endingObject) {
+        pdfDirectory.addElement(endingObject.getResult());
     }
 
 }

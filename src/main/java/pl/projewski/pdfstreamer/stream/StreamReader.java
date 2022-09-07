@@ -1,5 +1,8 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfElement;
+import pl.projewski.pdfstreamer.structure.PdfStream;
+
 class StreamReader extends ChildReader {
     static String END_STRING = "\nendstream\n";
     int endpos = 0;
@@ -27,5 +30,10 @@ class StreamReader extends ChildReader {
             endpos = 0;
         }
 
+    }
+
+    @Override
+    public PdfElement getResult() {
+        return new PdfStream(counter);
     }
 }

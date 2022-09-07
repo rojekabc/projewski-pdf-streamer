@@ -1,5 +1,8 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfArray;
+import pl.projewski.pdfstreamer.structure.PdfElement;
+
 import java.io.ByteArrayOutputStream;
 
 class ArrayReader extends ChildReader {
@@ -14,7 +17,9 @@ class ArrayReader extends ChildReader {
     public void put(ParserContext context, int r) {
         if (begin) {
             if (r == ']') {
-                System.out.println("Array " + baos.toString());
+                if (ParserContext.OUT) {
+                    System.out.println("Array " + baos.toString());
+                }
                 parent.complete(context);
             } else {
                 baos.write(r);
@@ -25,5 +30,10 @@ class ArrayReader extends ChildReader {
             throw new IllegalStateException("Wrong array begin");
         }
 
+    }
+
+    @Override
+    public PdfElement getResult() {
+        return new PdfArray(baos.toString());
     }
 }

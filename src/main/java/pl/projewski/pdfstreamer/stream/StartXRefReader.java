@@ -1,5 +1,8 @@
 package pl.projewski.pdfstreamer.stream;
 
+import pl.projewski.pdfstreamer.structure.PdfElement;
+import pl.projewski.pdfstreamer.structure.PdfStartXRef;
+
 import java.io.ByteArrayOutputStream;
 
 class StartXRefReader extends ChildReader {
@@ -20,5 +23,10 @@ class StartXRefReader extends ChildReader {
         } else {
             baos.write(r);
         }
+    }
+
+    @Override
+    public PdfElement getResult() {
+        return new PdfStartXRef();
     }
 }
